@@ -132,29 +132,36 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
+### Entry 1 - [November 12, 2026, 7:00 PM]
 **What I did**:
-
+Set up my repository, entered my student ID, and ran the original starter code.
 **Details**:
-
+Forked the starter repository
+Opened the project in VS Code and changed studentID.
+Committed my student ID change.
+Ran the original code.
+The output showed 37 context switches instead of 38 and 16 completed processes instead of 17.
+The watchdog stopped the simulation after 42 seconds.
 **Challenges**:
-
+Running Java in VS Code showed a Java Language Server error.
 **Solution**:
-
-**Time spent**:
+I checked that java and javac were installed, then compiled and ran the program using the VS Code terminal.
+**Time spent**: 1 hour
 
 ---
 
-### Entry 2 - [Date and Time]
+### Entry 2 - [November 12, 2026, 8:00 PM]
 **What I did**:
-
+Implemented Feature 1 to protect the shared ready queue.
 **Details**:
-
+Added a ReentrantLock named queueLock inside ReadyQueue.
+Protected add(), poll(), processOf(), and snapshot() using lock() and try/finally.
+Committed and pushed Feature 1
 **Challenges**:
-
+I did not understand why snapshot() needed a lock even though it only reads the ready queue.
 **Solution**:
-
-**Time spent**:
+I realized that another CPU could modify the queue, while snapshot() was iterating. I used queueLock to protect the iteration and prevent the queue from changing.
+**Time spent**: 2 hour
 
 ---
 
