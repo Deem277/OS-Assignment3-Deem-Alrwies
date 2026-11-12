@@ -302,7 +302,14 @@
 
 Verification block of the **original starter**:
 ```
-[Paste the verification block (or the exception/watchdog message) of the starter here]
+[⛔ WATCHDOG: the simulation did not finish (42 s). A process was lost, or a CPU is blocked forever, or the 'completed' counter lost an update.
+
+═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+  Context switches (quanta executed)     expected ٣٨       observed ٣٧       ✘ MISMATCH
+  Completed processes                    expected ١٧       observed ١٦       ✘ MISMATCH
+  Total service time (ms)                expected ١٣٦٢٢٦   observed ١٣١٨٣٠   ✘ MISMATCH
+  Busy-waiting polls (must be 0)         expected ٠        observed ٦٩٦      ✘ MISMATCH
+  ✘ At least one check failed (see the ✘ lines above): a race condition or busy waiting is still present.]
 ```
 
 Verification block of **my final version**:
