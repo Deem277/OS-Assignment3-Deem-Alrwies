@@ -165,16 +165,19 @@ I realized that another CPU could modify the queue, while snapshot() was iterati
 
 ---
 
-### Entry 3 - [Date and Time]
+### Entry 3 - [November 13, 2026, 9:00 AM]
 **What I did**:
-
+Implemented Feature 2 to protect the shared statistics.
 **Details**:
+Added contextLock, completedLock, and serviceLock .
+Protected the three update methods.
+Used try/finally to release locks.
 
 **Challenges**:
-
+ I was unsure whether to use one lock for all three counters or a separate lock for each counter.
 **Solution**:
-
-**Time spent**:
+I realized that counters are independent. I chose a separate lock for each counter. This requires managing more locks, but allows independent updates concurrently.
+**Time spent**: 1 hour
 
 ---
 
