@@ -32,11 +32,11 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Write your full name here] |
-| **Student ID** | [Write your student ID here] |
-| **University Email** | [yourid]@std.psau.edu.sa |
-| **GitHub Username** | [your-github-username] |
-| **Repository Link** | [Paste your repository link here] |
+| **Full Name** | [Deem Omar Alroies] |
+| **Student ID** | [446051752] |
+| **University Email** | 446051752@std.psau.edu.sa |
+| **GitHub Username** | [Deem277] |
+| **Repository Link** | [   ] |
  
 ---
 
@@ -181,16 +181,20 @@ I realized that counters are independent. I chose a separate lock for each count
 
 ---
 
-### Entry 4 - [Date and Time]
+### Entry 4 - [November 13, 2026, 4:00 PM]
 **What I did**:
-
+Implemented Feature 3 to replace busy waiting with a counting semaphore.
 **Details**:
-
+Added readyCount with an initial value of 0 inside ReadyQueue.
+Added release() in add() and used acquire() before a CPU takes a process.
+Removed the repeated polling and Thread.sleep(20) from CpuWorker.
+Added signalShutdown() to wake blocked CPUs when all processes finish.
 **Challenges**:
-
+I found it difficult to understand how blocked CPUs would stop after the last process finished.
 **Solution**:
-
-**Time spent**:
+I realized that CPU waiting in acquire() would blocked if no processes added.
+I added a signal that releases CPUs, and made each CPU check whether all processes had completed before polling the queue
+**Time spent**: 1 hour
 
 ---
 
