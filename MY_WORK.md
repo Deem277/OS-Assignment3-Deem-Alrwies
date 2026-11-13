@@ -198,16 +198,19 @@ I added a signal that releases CPUs, and made each CPU check whether all process
 
 ---
 
-### Entry 5 - [Date and Time]
+### Entry 5 - [November 13, 2026, 5:30 PM]
 **What I did**:
-
+Tested the completed program and reviewed my documentation.
 **Details**:
-
+Ran the final version five times and checked the verification results.
+Confirmed that busy-waiting polls were 0 and the program finished without a watchdog.
+Saved the final verification block 
+Compared the final results with the original starter output.
 **Challenges**:
-
+I needed to understand why one successful run was not enough to check a concurrent program.
 **Solution**:
-
-**Time spent**:
+ I repeated the test five times and checked all four verification lines each time.
+**Time spent**: 30 minutes
 
 ---
 
@@ -328,7 +331,12 @@ Verification block of the **original starter**:
 
 Verification block of **my final version**:
 ```
-[Paste the verification block of your final version here (all lines ✔)]
+═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+  Context switches (quanta executed)     expected ٣٨       observed ٣٨       ✔
+  Completed processes                    expected ١٧       observed ١٧       ✔
+  Total service time (ms)                expected ١٣٦٢٢٦   observed ١٣٦٢٢٦   ✔
+  Busy-waiting polls (must be 0)         expected ٠        observed ٠        ✔
+  ✔ All shared values are consistent.
 ```
 
 **Explanation of the timeline:**
