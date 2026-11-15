@@ -257,7 +257,7 @@ I needed to understand why one successful run was not enough to check a concurre
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[ I learned that race conditions can occur when multiple threads are accessing shared data at the same time, reading and writing to it. I learned that reading, changing and writing back a counter could result in some updates being lost. I learned to protect critical sections using ReentrantLock, so that only one thread can access it at a time. I use try/finally to ensure each lock is always released. I also learned that a counting semaphore allows CPUs to wait for processes to become available instead of just polling an empty queue. This made me realize the importance of synchronization for getting correct results in concurrent programs. ]
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -265,7 +265,8 @@ I needed to understand why one successful run was not enough to check a concurre
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[The most challenging part was choosing between one lock for all three counters and a separate lock for each counter. At first, I thought one lock would be easier to manage. After reviewing the code, I realized that the counters were independent, so I chose a separate lock for each one. This helped me understand how lock granularity affects concurrency.
+]
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -273,7 +274,7 @@ I needed to understand why one successful run was not enough to check a concurre
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[I overcame the challenges by reviewing the README and the methods carefully. I worked on one feature at a time to understand what each change fixed. When the output still showed old errors, I recompiled the saved code before running it again. I compared the verification results with the expected values to check my changes.]
 
 ## Question 4: Where can synchronization concepts be applied in real-world applications?
 
@@ -281,7 +282,7 @@ I needed to understand why one successful run was not enough to check a concurre
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Synchronization is useful in banking applications where multiple transactions modify the same account balance. It can protect the balance update . As I protected the shared counters in my code , a lock Also, ticketing booking systems need to be synchronized so that two customers don’t book the same seat. In the same way , a print queue might have a semaphore to make a worker wait for a print job to come available . These examples illustrate how synchronization enables applications to deal with shared resources properly.]
 
 ### Optional: What would you like to learn more about?
 
@@ -315,7 +316,7 @@ I needed to understand why one successful run was not enough to check a concurre
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[In my original run, context switches was 37 instead of 38, completed processes was 16 instead of 17, and total service time was 131830 ms instead of 136226 ms. The program also timed out on the watchdog after 42 seconds and recorded 696 busy-waiting polls. If two process threads on CPU-1 and CPU-2 read the same counter value, pause at RaceWindow.pause() and then both write the same incremented value, a lost update can occur. Without RaceWindow, the operating system can still interrupt threads between read and write, so the bug is timing-dependent and can be difficult to reproduce.]
 
 Verification block of the **original starter**:
 ```
@@ -340,7 +341,7 @@ Verification block of **my final version**:
 ```
 
 **Explanation of the timeline:**
-[Explain the lost update step by step.]
+[For instance, the process thread running on CPU-1 reads contextSwitchCount = 12 and stops at RaceWindow.pause(). The process thread running on CPU-2 also reads 12 before the first thread writes its update. Then both threads write 13 next . So counter is 13 instead of 14 . 1 update is lost . This is an example of a possible interleaving, not an exact trace of what my output will be.]
 
 ## Question 2: Critical Sections and Lock Granularity
 
@@ -350,12 +351,23 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[I used queueLock to protect the ready queue methods and shutdownSignalled, and separate locks to protect each static counter and the getter. I chose one lock per counter because the counters are independent, allowing different counters to update concurrently, this requires managing more locks. The queue uses a different lock so that queue operations do not block updates. Each lock provides mutual exclusion, and releasing it in finally while avoiding acquire() and join(). the ReentrantLock is not fair, so threads are not guaranteed to acquire it in arrival order and bounded waiting is not guaranteed.]
 
 | Critical section (variable / method) | Lock used | Why it needs protection |
 |---|---|---|
 | [e.g., `ReadyQueue.poll()`] | [lock name] | [reason] |
-| [...] | [...] | [...] |
+| ReadyQueue.add() | queueLock | Keeps updates to list and map together. |
+| ReadyQueue.poll() | queueLock | Prevents CPUs from reading and removing the same head |
+| ReadyQueue.processOf() | queueLock | Protects shared map reads during concurrent updates |
+| ReadyQueue.snapshot() | queueLock | Prevents queue changes during iteration |
+| signalShutdown()
+shutdownSignalled | queueLock |  the shutdown signal is sent only once |
+| incrementContextSwitch() 
+getContextSwitchCount() | contextLock | Prevents lost updates and coordinates reads of contextSwitchCount |
+|incrementCompletedProcess()
+getCompletedProcessCount() | completedLock | Protects completedProcessCount updates and reads. |
+| [addServiceTime()
+getTotalServiceTime()] | serviceLock | Prevents lost updates |
 
 ## Question 3: Busy Waiting vs Semaphore
 
@@ -376,24 +388,21 @@ Verification block of **my final version**:
 **Your Answer:** *(3-5 sentences)*
 
 **Classical problem and roles**:
-[Name the problem; who is the producer, who is the consumer?]
-
+it is producer-consumer problem: main produces the initial processes, and CPUs consume them and  produce work by re-enqueuing unfinished processes.
 **Semaphores for a bounded queue (name and initial value)**:
-[Name the three semaphores and their initial values.]
-
+For an initially empty queue, use empty = K for free slots, full = 0 for available items, and mutex = 1 for exclusive access.
 **Deadlock scenario and prevention**:
-[Describe the scenario and the necessary condition you would break.]
-
+If producer holds mutex while waiting for a free slot, consumers cannot acquire mutex to remove an item,this causing deadlock. Waiting before acquiring mutex prevents this by breaking the hold-and-wait condition.
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1.Race conditions
+2.Protecting critical sections
+3.Using semaphores
 
 **Concepts I need to study more:**
-1.
-2.
+1.Deadlock prevention
+2.bounded waiting
 
 ---
 
