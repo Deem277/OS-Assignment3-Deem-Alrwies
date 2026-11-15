@@ -42,7 +42,7 @@
 
 ## 🎥 Video Link
 
-**Video Link**: [Paste your video link here]
+**Video Link**: https://drive.google.com/file/d/1TPaWpNivsoyGKEanACFCDNVx5UI5XwEp/view?usp=drivesdk
 
 > ⚠️ **WARNING:** The video must be **publicly accessible** ("Anyone with the link can view") on **Google Drive**, **YouTube (Unlisted or Public)** or any other cloud file-sharing system. A private, restricted or broken link counts as a **missing video (-1 mark)**.
 >
@@ -233,11 +233,11 @@ I needed to understand why one successful run was not enough to check a concurre
 
 **Total time spent on assignment**: [X hours]
 
-**Most challenging part**:
+**Most challenging part**:  Choosing between one lock for all counters and a separate lock for each counter.
 
-**Most interesting learning**:
+**Most interesting learning**: Learning how a semaphore blocks CPUs until work is available.
 
-**What I would do differently next time**:
+**What I would do differently next time**: I would recompile the code after every change and test each feature before moving to the next one.
 
 ---
 
